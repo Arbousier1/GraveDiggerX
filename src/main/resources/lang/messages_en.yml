@@ -1,0 +1,53 @@
+# Author: f1lipus (https://github.com/f1lipus)
+# Version: 1.0.0
+
+prefix: "<bold><gradient:#2C2C2C:#555555>[GRX]</gradient></bold>"
+
+error:
+  no-permission: "You don't have permission to perform this operation!"
+  unknown-command: "<#AAAAAA>Type <white>/grx help</white> <#AAAAAA>to see available commands."
+  unknown-player: "Unknown"
+
+reload:
+  success: "<#AAAAAA>Configuration reloaded successfully!"
+
+help:
+  info:
+    - ""
+    - "               <bold><gradient:#2C2C2C:#555555>[GraveDiggerX Help]</gradient></bold>"
+    - "<bold></bold>"
+    - "<white>/grx help</white> <dark_gray>- <#AAAAAA>Shows this help message."
+    - "<white>/grx reload</white> <dark_gray>- <#AAAAAA>Reloads the plugin configuration."
+    - "<white>/grx list</white> <dark_gray>- <#AAAAAA>Lists all your active graves."
+    - "<white>/grx admin list <player></white> <dark_gray>- <#AAAAAA>Lists graves of a player."
+    - "<bold></bold>"
+    - "<bold><gradient:#2C2C2C:#555555>--------------------------------------</gradient></bold>"
+
+gui-grave:
+  title: "<#AAAAAA>Grave of <player>"
+  collect-item-name: "<#00FF00>COLLECT ALL ITEMS"
+  collect-item-lore:
+    - "<gray>Click to recover your inventory and XP.</gray>"
+    - "<dark_gray>Your grave will be removed after collection.</dark_gray>"
+  stats-owner: "<#AAAAAA>Owner: <white><player>"
+  stats-xp: "<#00FF00>XP: <white><xp>"
+
+graves:
+  created-grave: "<#AAAAAA>Your grave was created at coordinates: <#D4D4D4>X=<x>, Y=<y>, Z=<z>"
+  not-your-grave: "<#AAAAAA>This is not your grave, you can only open yours!"
+  collected: "<#AAAAAA>You have recovered your inventory and XP."
+  reached-max-graves: "<#AAAAAA>You have reached the maximum number of graves<white> (<limit>)!"
+  only-player: "<red>This command can only be used by players.</red>"
+  no-graves: "<#AAAAAA>No graves found."
+  removal-countdown: "<#AAAAAA>Your grave will be deleted in: <white><time></white> sec"
+  locate-header: "<white>Your active graves:</white>"
+  locate-entry: "<white><index>.</white> <#AAAAAA>World: <white><world></white> <gray>→</gray> <white>X:<x> Y:<y> Z:<z></white>"
+
+graveh:
+  hologram: "<#800020>R.I.P. <newline><#AAAAAA>Grave of <white><player></white><newline><yellow>Right-click to open"
+
+admin:
+  player-not-found: "<#AAAAAA>Player <white><player></white> <#AAAAAA>not found."
+  no-graves-for-player: "<#AAAAAA>Player <white><player></white> <#AAAAAA>has no graves."
+  list-header: "<white>List of <white><player>'s graves:</white>"
+  list-entry: "<white><index>.</white> <#AAAAAA>World: <white><world></white> <gray>→</gray> <white>X:<x> Y:<y> Z:<z></white>"

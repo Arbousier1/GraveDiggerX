@@ -1,0 +1,36 @@
+graves:
+  grave-despawn: 120 # Time in seconds when grave auto-removes
+  max-per-player: 2 # Maximum graves per player
+  protected-effect-cooldown: 5000 # Cooldown in milliseconds for protected grave effect (teleport + sound)
+
+  # Grave block protection
+  protection:
+    explosions: true
+    fluids: true
+    mobs: true
+    pistons: true
+    hoppers: true
+
+# Ghost spirit over the grave
+spirits:
+  enabled: true
+
+# Plugin language selection. Possible values: EN, PL
+# To add your own language file, please contact us on Discord: https://discord.gg/Zk6mxv7eMh
+language: "EN"
+
+# Update check and auto-download settings.
+update:
+  check-for-updates: true
+  auto-download: false
+  hangar: true
+  github: true
+  modrinth: true
+
+
+# Debug mode: when true, provides more detailed console logs.
+debug: false
+
+# Should StatsCollector be enabled? Recommended: true.
+stats:
+  enabled: true
