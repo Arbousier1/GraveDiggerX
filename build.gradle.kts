@@ -7,15 +7,15 @@ plugins {
 
 group = "pl.syntaxdevteam.gravediggerx"
 version = "1.0.0"
-description = "A powerful death management plugin"
+description = "A powerful and very effective plugin for managing tombstones after players die."
 
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/") {
         name = "papermc-repo"
     }
-    maven("https://nexus.syntaxdevteam.pl/repository/maven-snapshots/") //SyntaxDevTeam
-    maven("https://nexus.syntaxdevteam.pl/repository/maven-releases/") //SyntaxDevTeam
+    maven("https://nexus.syntaxdevteam.pl/repository/maven-snapshots/")
+    maven("https://nexus.syntaxdevteam.pl/repository/maven-releases/")
 }
 
 dependencies {
@@ -57,6 +57,6 @@ tasks {
 }
 
 plugindeployer {
-    paper { dir = "/home/debian/poligon/Paper/1.21.10/plugins" } //ostatnia wersja dla Paper
-    folia { dir = "/home/debian/poligon/Folia/1.21.8/plugins" } //ostatnia wersja dla Folia
+    paper { dir = "/home/debian/poligon/Paper/1.21.10/plugins" }
+    folia { dir = "/home/debian/poligon/Folia/1.21.8/plugins" }
 }
