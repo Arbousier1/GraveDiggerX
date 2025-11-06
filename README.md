@@ -11,7 +11,7 @@ GraveDiggerX to zaawansowany plugin dla serwerów Paper, który automatycznie tw
 - **Trwałe przechowywanie** – dane nagrobków zapisywane są w `data.json`, dzięki czemu nie znikają po restarcie serwera.
 
 ## Wymagania i instalacja
-1. Wymagany jest serwer Paper w wersji 1.21.10 (lub zgodnej).【F:build.gradle.kts†L21-L47】
+1. Wymagany jest serwer Paper w wersji 1.21.10 (lub zgodnej).
 2. Pobierz najnowszą wersję GraveDiggerX i umieść plik JAR w katalogu `plugins/`.
 3. Uruchom serwer, aby wygenerować pliki konfiguracyjne i językowe.
 4. Dostosuj konfigurację zgodnie z potrzebami i zrestartuj serwer lub użyj komendy `/gravediggerx reload`.
