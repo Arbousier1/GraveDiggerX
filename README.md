@@ -1,56 +1,56 @@
 # GraveDiggerX
 
-GraveDiggerX to zaawansowany plugin dla serwerów Paper, który automatycznie tworzy nagrobki po śmierci gracza. Plugin zabezpiecza wyposażenie, doświadczenie oraz miejsce śmierci gracza, zapewniając czytelne informacje wizualne i łatwe odzyskiwanie utraconych przedmiotów.
+GraveDiggerX is an advanced plugin for Paper servers that automatically creates graves upon a player's death. The plugin secures the player's inventory, experience, and death location, providing clear visual information and easy recovery of lost items.
 
-## Najważniejsze funkcje
-- **Automatyczne nagrobki** – po śmierci gracza jego ekwipunek i doświadczenie trafiają do nagrobka w postaci głowy gracza wraz z hologramem informacyjnym.
-- **Interaktywne odzyskiwanie ekwipunku** – właściciel może otworzyć GUI nagrobka lub zebrać zawartość błyskawicznie przytrzymując kucanie i klikając nagrobek.
-- **Ochrona miejsca śmierci** – nagrobki są odporne na zniszczenia przez eksplozje, płyny, tłoki, lejek czy moby, a złodziei odrzuca specjalny efekt, dopóki nagrobek nie wygaśnie.
-- **Duch opiekun** – nad nagrobkiem pojawia się świecący Allay, który pozostaje do czasu zebrania łupów lub wygaśnięcia nagrobka (można go wyłączyć w konfiguracji).
-- **Automatyczne czyszczenie** – nagrobki są usuwane po zdefiniowanym czasie, a właściciel otrzymuje odliczanie w pasku akcji.
-- **Trwałe przechowywanie** – dane nagrobków zapisywane są w `data.json`, dzięki czemu nie znikają po restarcie serwera.
+## Key Features
+- **Auto Graves** – After the player’s death, their inventory and experience are transferred to a gravestone in the form of the player’s head, accompanied by an informational hologram.
+- **Interactive inventory recovery** – The owner can open the gravestone’s GUI or quickly collect its contents by holding the sneak key and clicking on the gravestone.
+- **Death site protection** – Gravestones are immune to destruction by explosions, fluids, pistons, hoppers, or mobs, and thieves are repelled by a special effect until the gravestone expires.
+- **Guardian spirit** – A glowing Allay appears above the gravestone and remains until the loot is collected or the gravestone expires (can be disabled in the configuration).
+- **Automatic cleanup** – Gravestones are removed after a defined period, and the owner receives a countdown in the action bar.
+- **Persistent storage** – Gravestone data is saved in `data.json`, ensuring it is not lost after a server restart.
 
-## Wymagania i instalacja
-1. Wymagany jest serwer Paper w wersji 1.21.10 (lub zgodnej).
-2. Pobierz najnowszą wersję GraveDiggerX i umieść plik JAR w katalogu `plugins/`.
-3. Uruchom serwer, aby wygenerować pliki konfiguracyjne i językowe.
-4. Dostosuj konfigurację zgodnie z potrzebami i zrestartuj serwer lub użyj komendy `/gravediggerx reload`.
+## Requirements and Installation
+1. A Paper server version 1.21.10 (or compatible) is required.
+2. Download the latest version of GraveDiggerX and place the JAR file in the `plugins/` directory.
+3. Start the server to generate configuration and language files.
+4. Adjust the configuration as needed, then restart the server or use the `/gravediggerx reload` command.
 
-## Konfiguracja
-Najważniejsze opcje znajdują się w pliku `config.yml`:
+## Configuration
+The most important options are located in the `config.yml` file:
 
-| Ścieżka | Opis |
+| Path | Description |
 | --- | --- |
-| `graves.grave-despawn` | Czas (sekundy) po którym nagrobek zostaje usunięty. |
-| `graves.max-per-player` | Limit aktywnych nagrobków na gracza; przekroczenie blokuje tworzenie nowych nagrobków. |
-| `graves.protected-effect-cooldown` | Czas odnowienia (ms) efektu odrzutu dla obcych graczy próbujących okraść świeży nagrobek. |
-| `graves.protection.*` | Włącza/wyłącza ochronę przed eksplozjami, płynami, mobami, tłokami i lejkowaniem przedmiotów. |
-| `spirits.enabled` | Steruje pojawianiem się ducha pilnującego nagrobek. |
-| `language` | Wybór pliku językowego (`EN`/`PL`). Możesz dostosować wiadomości w `lang/messages_*.yml`. |
-| `update.*` | Automatyczne sprawdzanie i pobieranie aktualizacji (Hangar/GitHub/Modrinth). |
-| `stats.enabled` | Włącza zbieranie anonimowych statystyk użycia. |
+| `graves.grave-despawn` | Time (in seconds) after which the gravestone is removed. |
+| `graves.max-per-player` | Maximum number of active gravestones per player; exceeding this limit prevents new gravestones from being created. |
+| `graves.protected-effect-cooldown` | Cooldown time (in milliseconds) for the knockback effect applied to foreign players attempting to loot a fresh gravestone. |
+| `graves.protection.*` | Enables/disables protection against explosions, fluids, mobs, pistons, and hopper item extraction. |
+| `spirits.enabled` | Controls the appearance of the guardian spirit above the gravestone. |
+| `language` | Selects the language file (`EN`/`PL`). You can customize messages in `lang/messages_*.yml`. |
+| `update.*` | Automatic update checking and downloading (Hangar/GitHub/Modrinth). |
+| `stats.enabled` | Enables anonymous usage statistics collection. |
 
-## Komendy i uprawnienia
-Podstawowa komenda pluginu to `/gravediggerx` (skrót `/grx`). Dostępne są następujące podkomendy:
+## Commands and Permissions
+The main plugin command is `/gravediggerx` (shortcut `/grx`). The following subcommands are available:
 
-| Komenda | Działanie | Wymagane uprawnienie |
+| Command | Description | Permission |
 | --- | --- | --- |
-| `/gravediggerx help` | Wyświetla listę dostępnych poleceń oraz podstawowe informacje.| `grx.cmd.help` |
-| `/gravediggerx reload` | Przeładowuje konfigurację, wiadomości oraz odświeża dane pluginu bez restartu serwera.| `grx.cmd.reload` |
-| `/gravediggerx list` | Pokazuje właścicielowi współrzędne wszystkich jego aktywnych nagrobków.| `grx.cmd.list` |
-| `/gravediggerx admin list <gracz>` | Wymienia wszystkie nagrobki konkretnego gracza (dla administracji).| `grx.cmd.admin` |
+| `/gravediggerx help` | Displays a list of available commands and basic information.| `grx.cmd.help` |
+| `/gravediggerx reload` | Reloads the configuration, messages, and refreshes plugin data without restarting the server.| `grx.cmd.reload` |
+| `/gravediggerx list` | Shows the owner the coordinates of all their active gravestones.| `grx.cmd.list` |
+| `/gravediggerx admin list <gracz>` | Lists all gravestones of a specific player (for administrators).| `grx.cmd.admin` |
 
 Dodatkowe uprawnienia:
 
-| Uprawnienie | Opis |
+| Permission | Description |
 | --- | --- |
-| `grx.opengrave` | Pozwala właścicielowi otworzyć GUI nagrobka i zebrać przedmioty z przycisku „Collect All”. |
-| `grx.owner` | Uprawnienie nadrzędne dające pełny dostęp do wszystkich funkcji pluginu. |
-| `grx.*` | Wildcard udostępniający wszystkie uprawnienia pluginu. |
+| `grx.opengrave` | Allows the owner to open the gravestone GUI and collect items using the “Collect All” button. |
+| `grx.owner` | Master permission granting full access to all plugin features. |
+| `grx.*` | Wildcard that provides access to all plugin permissions. |
 
-> **Wskazówka:** Operatorzy (OP) mają pełny dostęp do wszystkich funkcji pluginu bez potrzeby nadawania dodatkowych uprawnień.
+> **Wskazówka:** Operators (OPs) have full access to all plugin features without needing any additional permissions.
 
 
-## Wsparcie i rozwój
-Plugin został przygotowany z myślą o serwerach survivalowych, hardcore i RPG. Zgłaszaj sugestie oraz błędy na oficjalnym serwerze Discord lub w repozytorium projektu, abyśmy mogli kontynuować rozwój GraveDiggerX.
+## Support and Development
+The plugin was designed for survival, hardcore, and RPG servers. Please report suggestions and bugs on the official Discord server or in the project repository so we can continue improving GraveDiggerX.
 
