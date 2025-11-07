@@ -27,6 +27,7 @@ world_the_end/
 bin/
 *.class
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 
 # OS junk
 .DS_Store
