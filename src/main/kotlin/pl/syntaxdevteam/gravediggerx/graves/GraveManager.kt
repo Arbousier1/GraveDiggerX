@@ -22,6 +22,28 @@ class GraveManager(private val plugin: GraveDiggerX) {
     }
 
     fun loadGravesFromStorage() {
+        for (world in Bukkit.getWorlds()) {
+            for (entity in world.entities) {
+                if (entity is TextDisplay && entity.persistentDataContainer.has(
+                        NamespacedKey(plugin, "grave_hologram"),
+                        PersistentDataType.STRING
+                    )
+                ) {
+                    entity.remove()
+                }
+
+                if (entity.persistentDataContainer.has(
+                        NamespacedKey(plugin, "grave_ghost"),
+                        PersistentDataType.STRING
+                    )
+                ) {
+                    entity.remove()
+                }
+            }
+        }
+
+        activeGraves.clear()
+
         val loadedGraves = dataStore.loadAllGraves()
         if (loadedGraves.isEmpty()) return
 
@@ -73,6 +95,7 @@ class GraveManager(private val plugin: GraveDiggerX) {
             }, 100L)
         }, 40L)
     }
+
 
     fun saveGravesToStorage() {
         val validGraves = activeGraves.values.toList()
@@ -147,7 +170,7 @@ class GraveManager(private val plugin: GraveDiggerX) {
             display.billboard = Display.Billboard.CENTER
             display.isShadowed = false
             display.textOpacity = 255.toByte()
-            display.backgroundColor = Color.fromARGB(180, 10, 10, 10)
+            display.backgroundColor = Color.fromARGB(120, 10, 10, 10)
             display.brightness = Display.Brightness(15, 15)
             display.isSeeThrough = true
 
