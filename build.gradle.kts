@@ -56,6 +56,13 @@ tasks {
     }
 }
 
+tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    archiveBaseName.set("GraveDiggerX")
+    archiveClassifier.set("")
+    archiveVersion.set(project.version.toString())
+    mergeServiceFiles()
+}
+
 plugindeployer {
     paper { dir = "/home/debian/poligon/Paper/1.21.10/plugins" }
     folia { dir = "/home/debian/poligon/Folia/1.21.8/plugins" }
