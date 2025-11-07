@@ -24,7 +24,7 @@ class GhostSpirit(
         val exactLoc = Location(
             world,
             graveLocation.blockX + 0.5,
-            graveLocation.blockY + 2.0,
+            graveLocation.blockY + 2.7,
             graveLocation.blockZ + 0.5
         )
 
@@ -59,7 +59,7 @@ class GhostSpirit(
             val strictLoc = Location(
                 w,
                 graveLocation.blockX + 0.5,
-                graveLocation.blockY + 2.0,
+                graveLocation.blockY + 2.7,
                 graveLocation.blockZ + 0.5
             )
             entity!!.velocity = org.bukkit.util.Vector(0, 0, 0)
