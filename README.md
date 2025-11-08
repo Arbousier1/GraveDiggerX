@@ -40,7 +40,7 @@ The main plugin command is `/gravediggerx` (shortcut `/grx`). The following subc
 | `/gravediggerx list` | Shows the owner the coordinates of all their active gravestones.| `grx.cmd.list` |
 | `/gravediggerx admin list <gracz>` | Lists all gravestones of a specific player (for administrators).| `grx.cmd.admin` |
 
-Dodatkowe uprawnienia:
+Permissions:
 
 | Permission | Description |
 | --- | --- |

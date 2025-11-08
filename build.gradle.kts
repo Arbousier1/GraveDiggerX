@@ -38,9 +38,10 @@ tasks {
         useJUnitPlatform()
     }
     runServer {
-        minecraftVersion("1.21.10")
-        runDirectory(file("run/paper"))
+        minecraftVersion("1.21.4")
+        runDirectory(file("run/paper/1.21.4"))
     }
+
     runPaper.folia.registerTask()
 
     processResources {
