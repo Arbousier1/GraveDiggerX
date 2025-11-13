@@ -36,7 +36,7 @@ class GraveDiggerX : JavaPlugin() {
     override fun onEnable() {
         SyntaxCore.registerUpdateSources(
             GitHubSource("SyntaxDevTeam/GraveDiggerX"),
-            ModrinthSource("")
+            ModrinthSource("G6k3MNK0")
         )
         SyntaxCore.init(this)
         saveDefaultConfig()
