@@ -101,7 +101,7 @@ class DatabaseHandler(private val plugin: GraveDiggerX) {
                     """
                     INSERT INTO graves (
                         graveKey, ownerId, ownerName, world, x, y, z, yaw, pitch, createdAt, storedXp, payload
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """.trimIndent(),
                     record.graveKey,
                     record.ownerId,
