@@ -68,14 +68,8 @@ class GraveManager(private val plugin: GraveDiggerX) {
 
                             val skull = block.state as? org.bukkit.block.Skull
                             skull?.apply {
-                                val profile = Bukkit.createProfile(grave.ownerId, grave.ownerName)
-                                Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-                                    profile.complete(true)
-                                    Bukkit.getScheduler().runTask(plugin, Runnable {
-                                        this.setOwnerProfile(profile)
-                                        update(true, false)
-                                    })
-                                })
+                                this.setOwningPlayer(Bukkit.getOfflinePlayer(grave.ownerId))
+                                update(true, false)
                             }
 
                             val hologramIds = createHologram(loc, grave.ownerName)
@@ -164,14 +158,9 @@ class GraveManager(private val plugin: GraveDiggerX) {
         block.type = Material.PLAYER_HEAD
         val skull = block.state as? org.bukkit.block.Skull
         skull?.apply {
-            val profile = Bukkit.createProfile(player.uniqueId, player.name)
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-                profile.complete(true)
-                Bukkit.getScheduler().runTask(plugin, Runnable {
-                    this.setOwnerProfile(profile)
-                    update(true, false)
-                })
-            })
+            // Use supported API in Paper 1.21.10 for block skulls
+            this.setOwningPlayer(player)
+            update(true, false)
         }
 
         val hologramIds = createHologram(location, player.name)
@@ -271,13 +260,5 @@ class GraveManager(private val plugin: GraveDiggerX) {
         val y = location.blockY
         val z = location.blockZ
         return "$worldName:$x:$y:$z"
-    }
-
-
-    fun removeAllGraves() {
-        val keys = activeGraves.keys.toList()
-        for (key in keys) {
-            activeGraves[key]?.let { removeGrave(it) }
-        }
     }
 }
