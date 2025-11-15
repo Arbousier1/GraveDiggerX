@@ -23,7 +23,7 @@ class GraveGUI(
     private val inventory: Inventory = Bukkit.createInventory(
         null,
         54,
-        plugin.messageHandler.getLogMessage("gui-grave", "title", emptyMap())
+        plugin.messageHandler.stringMessageToComponentNoPrefix("gui-grave", "title", emptyMap())
     )
 
     private var openedBy: Player? = null
@@ -63,8 +63,8 @@ class GraveGUI(
     private fun createOwnerBanner(): ItemStack {
         val banner = ItemStack(Material.WHITE_BANNER)
         val meta = banner.itemMeta
-        val ownerName = grave.ownerName.ifBlank { plugin.messageHandler.getCleanMessage("error", "unknown-player", emptyMap()) }
-        val message = plugin.messageHandler.getCleanMessage("gui-grave", "stats-owner", mapOf("player" to ownerName))
+        val ownerName = grave.ownerName.ifBlank { plugin.messageHandler.stringMessageToStringNoPrefix("error", "unknown-player", emptyMap()) }
+        val message = plugin.messageHandler.stringMessageToStringNoPrefix("gui-grave", "stats-owner", mapOf("player" to ownerName))
         meta.displayName(plugin.messageHandler.formatMixedTextToMiniMessage(message, null))
         banner.itemMeta = meta
         return banner
@@ -73,7 +73,7 @@ class GraveGUI(
     private fun createXpBanner(): ItemStack {
         val banner = ItemStack(Material.CYAN_BANNER)
         val meta = banner.itemMeta
-        val message = plugin.messageHandler.getCleanMessage("gui-grave", "stats-xp", mapOf("xp" to grave.storedXp.toString()))
+        val message = plugin.messageHandler.stringMessageToStringNoPrefix("gui-grave", "stats-xp", mapOf("xp" to grave.storedXp.toString()))
         meta.displayName(plugin.messageHandler.formatMixedTextToMiniMessage(message, null))
         banner.itemMeta = meta
         return banner
@@ -83,7 +83,7 @@ class GraveGUI(
         val item = ItemStack(Material.LIME_CANDLE)
         val meta = item.itemMeta
 
-        val displayName = plugin.messageHandler.getCleanMessage("gui-grave", "collect-item-name", emptyMap())
+        val displayName = plugin.messageHandler.stringMessageToStringNoPrefix("gui-grave", "collect-item-name", emptyMap())
         val loreList = plugin.messageHandler.getSmartMessage("gui-grave", "collect-item-lore", emptyMap())
 
         meta.displayName(plugin.messageHandler.formatMixedTextToMiniMessage(displayName, null))
@@ -95,7 +95,7 @@ class GraveGUI(
 
     fun open(player: Player) {
         if (!PermissionChecker.has(player, PermissionChecker.PermissionKey.OPEN_GRAVE)) {
-            val msg = plugin.messageHandler.getMessage("error", "no-permission", emptyMap())
+            val msg = plugin.messageHandler.stringMessageToComponent("error", "no-permission", emptyMap())
             player.sendMessage(msg)
             return
         }
@@ -129,7 +129,7 @@ class GraveGUI(
             val loc = grave.location.clone().add(0.5, 0.5, 0.5)
             val world = loc.world ?: return
 
-            val notYourGraveMsg = plugin.messageHandler.getMessage("graves", "not-your-grave", emptyMap())
+            val notYourGraveMsg = plugin.messageHandler.stringMessageToComponent("graves", "not-your-grave", emptyMap())
             player.sendMessage(notYourGraveMsg)
 
             world.spawnParticle(Particle.SOUL_FIRE_FLAME, loc, 20, 0.2, 0.2, 0.2, 0.05)
@@ -168,7 +168,7 @@ class GraveGUI(
         world.playSound(loc, Sound.BLOCK_SOUL_SAND_BREAK, 0.7f, 0.9f)
         player.playSound(player.location, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f)
 
-        val successMsg = plugin.messageHandler.getMessage(
+        val successMsg = plugin.messageHandler.stringMessageToComponent(
             "graves",
             "collected",
             mapOf("player" to player.name)

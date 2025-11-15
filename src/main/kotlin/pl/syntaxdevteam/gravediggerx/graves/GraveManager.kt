@@ -153,7 +153,7 @@ class GraveManager(private val plugin: GraveDiggerX) {
         val playerGraves = activeGraves.values.count { it.ownerId == player.uniqueId }
 
         if (playerGraves >= maxGraves) {
-            val message = plugin.messageHandler.getMessage("graves", "reached-max-graves", mapOf("limit" to maxGraves.toString()))
+            val message = plugin.messageHandler.stringMessageToComponent("graves", "reached-max-graves", mapOf("limit" to maxGraves.toString()))
             player.sendMessage(message)
             return null
         }
@@ -212,7 +212,7 @@ class GraveManager(private val plugin: GraveDiggerX) {
         activeGraves.values.filter { it.ownerId == ownerId }
 
     private fun createHologram(location: Location, ownerName: String): List<UUID> {
-        val text: Component = plugin.messageHandler.getLogMessage("graveh", "hologram", mapOf("player" to ownerName))
+        val text: Component = plugin.messageHandler.stringMessageToComponentNoPrefix("graveh", "hologram", mapOf("player" to ownerName))
         val hologramLocation = location.clone().add(0.5, 1.5, 0.5)
         val world = hologramLocation.world ?: return emptyList()
 

@@ -18,7 +18,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
         val sender = stack.sender
 
         if (args.isEmpty()) {
-            val message = plugin.messageHandler.getMessage("error", "unknown-command")
+            val message = plugin.messageHandler.stringMessageToComponent("error", "unknown-command")
             sender.sendMessage(message)
             return
         }
@@ -29,7 +29,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
             "list" -> sendList(stack)
             "admin" -> sendAdmin(stack, args)
             else -> {
-                val message = plugin.messageHandler.getMessage("error", "unknown-command")
+                val message = plugin.messageHandler.stringMessageToComponent("error", "unknown-command")
                 sender.sendMessage(message)
             }
         }
@@ -62,7 +62,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
         val sender = stack.sender
 
         if (!PermissionChecker.has(sender, PermissionKey.CMD_HELP)) {
-            val message = plugin.messageHandler.getMessage("error", "no-permission")
+            val message = plugin.messageHandler.stringMessageToComponent("error", "no-permission")
             sender.sendMessage(message)
             return
         }
@@ -75,7 +75,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
         val sender = stack.sender
 
         if (!PermissionChecker.has(sender, PermissionKey.CMD_RELOAD)) {
-            val message = plugin.messageHandler.getMessage("error", "no-permission")
+            val message = plugin.messageHandler.stringMessageToComponent("error", "no-permission")
             sender.sendMessage(message)
             return
         }
@@ -84,32 +84,32 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
         ReloadPlugin(plugin).reloadAll()
         plugin.messageHandler.reloadMessages()
 
-        val message = plugin.messageHandler.getMessage("reload", "success")
+        val message = plugin.messageHandler.stringMessageToComponent("reload", "success")
         sender.sendMessage(message)
     }
 
     private fun sendList(stack: CommandSourceStack) {
         val sender = stack.sender
         if (sender !is Player) {
-            val msg = plugin.messageHandler.getMessage("graves", "only-player", emptyMap())
+            val msg = plugin.messageHandler.stringMessageToComponent("graves", "only-player", emptyMap())
             sender.sendMessage(msg)
             return
         }
 
         if (!PermissionChecker.has(sender, PermissionKey.CMD_LIST)) {
-            val msg = plugin.messageHandler.getMessage("error", "no-permission")
+            val msg = plugin.messageHandler.stringMessageToComponent("error", "no-permission")
             sender.sendMessage(msg)
             return
         }
 
         val graves = plugin.graveManager.getGravesFor(sender.uniqueId)
         if (graves.isEmpty()) {
-            val msg = plugin.messageHandler.getMessage("graves", "no-graves", emptyMap())
+            val msg = plugin.messageHandler.stringMessageToComponent("graves", "no-graves", emptyMap())
             sender.sendMessage(msg)
             return
         }
 
-        val header = plugin.messageHandler.getMessage("graves", "locate-header", emptyMap())
+        val header = plugin.messageHandler.stringMessageToComponent("graves", "locate-header", emptyMap())
         sender.sendMessage(header)
 
         graves.forEachIndexed { index: Int, grave: Grave ->
@@ -121,7 +121,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
                 "y" to loc.blockY.toString(),
                 "z" to loc.blockZ.toString()
             )
-            val line = plugin.messageHandler.getMessage("graves", "locate-entry", placeholders)
+            val line = plugin.messageHandler.stringMessageToComponent("graves", "locate-entry", placeholders)
             sender.sendMessage(line)
         }
     }
@@ -130,13 +130,13 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
         val sender = stack.sender
 
         if (!PermissionChecker.has(sender, PermissionKey.CMD_ADMIN)) {
-            val message = plugin.messageHandler.getMessage("error", "no-permission")
+            val message = plugin.messageHandler.stringMessageToComponent("error", "no-permission")
             sender.sendMessage(message)
             return
         }
 
         if (args.size < 3) {
-            val msg = plugin.messageHandler.getMessage("error", "unknown-command")
+            val msg = plugin.messageHandler.stringMessageToComponent("error", "unknown-command")
             sender.sendMessage(msg)
             return
         }
@@ -144,7 +144,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
         when (args[1].lowercase()) {
             "list" -> sendAdminList(stack, args)
             else -> {
-                val message = plugin.messageHandler.getMessage("error", "unknown-command")
+                val message = plugin.messageHandler.stringMessageToComponent("error", "unknown-command")
                 sender.sendMessage(message)
             }
         }
@@ -158,12 +158,12 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
 
         val graves = plugin.graveManager.getGravesFor(offlinePlayer.uniqueId)
         if (graves.isEmpty()) {
-            val msg = plugin.messageHandler.getMessage("admin", "no-graves-for-player", mapOf("player" to playerName))
+            val msg = plugin.messageHandler.stringMessageToComponent("admin", "no-graves-for-player", mapOf("player" to playerName))
             sender.sendMessage(msg)
             return
         }
 
-        val header = plugin.messageHandler.getMessage("admin", "list-header", mapOf("player" to playerName))
+        val header = plugin.messageHandler.stringMessageToComponent("admin", "list-header", mapOf("player" to playerName))
         sender.sendMessage(header)
 
         graves.forEachIndexed { index: Int, grave: Grave ->
@@ -175,7 +175,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
                 "y" to loc.blockY.toString(),
                 "z" to loc.blockZ.toString()
             )
-            val line = plugin.messageHandler.getMessage("admin", "list-entry", placeholders)
+            val line = plugin.messageHandler.stringMessageToComponent("admin", "list-entry", placeholders)
             sender.sendMessage(line)
         }
     }

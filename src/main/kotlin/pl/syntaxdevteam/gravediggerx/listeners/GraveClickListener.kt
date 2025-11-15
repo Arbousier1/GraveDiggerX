@@ -61,7 +61,7 @@ class GraveClickListener(private val plugin: GraveDiggerX) : Listener {
 
             world.playSound(loc, org.bukkit.Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 0.5f)
 
-            val notYourGraveMsg = plugin.messageHandler.getMessage("graves", "not-your-grave", emptyMap())
+            val notYourGraveMsg = plugin.messageHandler.stringMessageToComponent("graves", "not-your-grave", emptyMap())
             player.sendMessage(notYourGraveMsg)
 
             val direction = player.location.subtract(grave.location).toVector().normalize()
@@ -71,7 +71,7 @@ class GraveClickListener(private val plugin: GraveDiggerX) : Listener {
             return
         }
 
-        val graveExpiredMsg = plugin.messageHandler.getMessage("graves", "not-your-grave", emptyMap())
+        val graveExpiredMsg = plugin.messageHandler.stringMessageToComponent("graves", "not-your-grave", emptyMap())
         player.sendMessage(graveExpiredMsg)
     }
 
@@ -96,7 +96,7 @@ class GraveClickListener(private val plugin: GraveDiggerX) : Listener {
         val loc = grave.location.clone().add(0.5, 0.5, 0.5)
         world.playSound(loc, org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.3f)
         world.spawnParticle(org.bukkit.Particle.SOUL, loc, 30, 0.3, 0.3, 0.3, 0.02)
-        val msg = plugin.messageHandler.getMessage("graves", "collected", mapOf("player" to player.name))
+        val msg = plugin.messageHandler.stringMessageToComponent("graves", "collected", mapOf("player" to player.name))
         player.sendMessage(msg)
     }
 }

@@ -49,7 +49,7 @@ class GraveDeathListener(private val plugin: GraveDiggerX) : Listener {
 
         event.droppedExp = 0
 
-        val message = plugin.messageHandler.getMessage(
+        val message = plugin.messageHandler.stringMessageToComponent(
             "graves",
             "created-grave",
             mapOf(

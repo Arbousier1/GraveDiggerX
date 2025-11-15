@@ -21,7 +21,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
     compileOnly("pl.syntaxdevteam:core:1.2.5-SNAPSHOT")
-    compileOnly("pl.syntaxdevteam:messageHandler:1.0.2-SNAPSHOT")
+    compileOnly("pl.syntaxdevteam:messageHandler:1.0.3")
     compileOnly("com.github.ben-manes.caffeine:caffeine:3.2.3")
     compileOnly("com.zaxxer:HikariCP:7.0.2")
     compileOnly("org.xerial:sqlite-jdbc:3.50.3.0")

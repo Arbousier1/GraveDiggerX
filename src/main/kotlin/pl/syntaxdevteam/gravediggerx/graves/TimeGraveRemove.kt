@@ -29,7 +29,7 @@ class TimeGraveRemove(private val plugin: GraveDiggerX) {
 
             Bukkit.getScheduler().runTask(plugin, Runnable {
                 if (player != null && player.isOnline) {
-                    val msg = plugin.messageHandler.getMessage(
+                    val msg = plugin.messageHandler.stringMessageToComponent(
                         "graves",
                         "removal-countdown",
                         mapOf(
