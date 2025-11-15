@@ -13,6 +13,7 @@ import pl.syntaxdevteam.gravediggerx.graves.GraveSerializer
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
+import java.sql.SQLException
 import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -163,30 +164,7 @@ class DatabaseHandler(private val plugin: GraveDiggerX) {
             return fileStore.loadAllGraves()
         }
 
-        return try {
-            val records = manager.query("SELECT * FROM graves ORDER BY createdAt ASC") { rs ->
-                GraveRecord(
-                    id = rs.getInt("id"),
-                    graveKey = rs.getString("graveKey"),
-                    ownerId = rs.getString("ownerId"),
-                    ownerName = rs.getString("ownerName"),
-                    world = rs.getString("world"),
-                    x = rs.getDouble("x"),
-                    y = rs.getDouble("y"),
-                    z = rs.getDouble("z"),
-                    yaw = rs.getFloat("yaw"),
-                    pitch = rs.getFloat("pitch"),
-                    createdAt = rs.getLong("createdAt"),
-                    storedXp = rs.getInt("storedXp"),
-                    payload = rs.getString("payload")
-                )
-            }
-            records.mapNotNull { GraveSerializer.decodeGraveFromString(it.payload) }
-        } catch (e: Exception) {
-            sqlOperational.set(false)
-            logger.err("Failed to load graves from database, switching to file storage. ${e.message}")
-            fileStore.loadAllGraves()
-        }
+        return loadAllGravesFromSql(manager) ?: fileStore.loadAllGraves()
     }
 
     fun writeGravesToJsonIfConfigured(graves: Collection<Grave>) {
@@ -258,6 +236,61 @@ class DatabaseHandler(private val plugin: GraveDiggerX) {
         val resolvedPath = databaseRoot.resolve(trimmed)
         resolvedPath.parent?.let { createDirectoryIfMissing(it) }
         return resolvedPath.toAbsolutePath().toString()
+    }
+
+    private fun loadAllGravesFromSql(
+        manager: DatabaseManager,
+        attemptRecovery: Boolean = true
+    ): List<Grave>? {
+        return try {
+            val records = manager.query("SELECT * FROM graves ORDER BY createdAt ASC") { rs ->
+                GraveRecord(
+                    id = rs.getInt("id"),
+                    graveKey = rs.getString("graveKey"),
+                    ownerId = rs.getString("ownerId"),
+                    ownerName = rs.getString("ownerName"),
+                    world = rs.getString("world"),
+                    x = rs.getDouble("x"),
+                    y = rs.getDouble("y"),
+                    z = rs.getDouble("z"),
+                    yaw = rs.getFloat("yaw"),
+                    pitch = rs.getFloat("pitch"),
+                    createdAt = rs.getLong("createdAt"),
+                    storedXp = rs.getInt("storedXp"),
+                    payload = rs.getString("payload")
+                )
+            }
+            records.mapNotNull { GraveSerializer.decodeGraveFromString(it.payload) }
+        } catch (e: Exception) {
+            if (attemptRecovery && isMissingTable(e)) {
+                logger.warning("Graves table missing, attempting to create schema before retrying load.")
+                ensureSchema()
+                return if (sqlOperational.get()) {
+                    loadAllGravesFromSql(manager, attemptRecovery = false)
+                } else {
+                    null
+                }
+            }
+
+            sqlOperational.set(false)
+            logger.err("Failed to load graves from database, switching to file storage. ${e.message}")
+            null
+        }
+    }
+
+    private fun isMissingTable(exception: Exception): Boolean {
+        if (exception !is SQLException) {
+            return false
+        }
+
+        val errorCode = exception.errorCode
+        val sqlState = exception.sqlState?.uppercase(Locale.ROOT)
+        if (errorCode == 42104 || sqlState == "42S02") {
+            return true
+        }
+
+        val message = exception.message?.lowercase(Locale.ROOT) ?: return false
+        return "table \"graves\" not found" in message || "table 'graves' not found" in message
     }
 
     private fun createDirectoryIfMissing(path: Path) {
