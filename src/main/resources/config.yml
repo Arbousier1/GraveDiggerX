@@ -24,8 +24,8 @@ spirits:
 # Settings for connecting to the database
 
 database:
-  # Available options: yaml, mariadb, mysql, postgresql, sqlite, h2
-  type: yaml
+  # Available options: json, mariadb, mysql, postgresql, sqlite, h2
+  type: json
   sql:
     host: localhost
     port: 3306 # 5432 if you use PostgreSQL; Default for MySQL is 3306.
