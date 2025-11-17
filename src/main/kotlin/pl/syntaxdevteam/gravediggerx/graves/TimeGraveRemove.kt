@@ -28,6 +28,13 @@ class TimeGraveRemove(private val plugin: GraveDiggerX) {
             }
 
             Bukkit.getScheduler().runTask(plugin, Runnable {
+                if (grave.location.block.type != org.bukkit.Material.PLAYER_HEAD) {
+                    plugin.graveManager.removeGrave(grave)
+                    scheduledTasks.remove(grave.ownerId)
+                    task.cancel()
+                    return@Runnable
+                }
+
                 if (player != null && player.isOnline) {
                     val msg = plugin.messageHandler.stringMessageToComponent(
                         "graves",
