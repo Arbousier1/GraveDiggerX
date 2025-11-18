@@ -5,6 +5,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.Material
 import pl.syntaxdevteam.gravediggerx.GraveDiggerX
 
 class GraveDeathListener(private val plugin: GraveDiggerX) : Listener {
@@ -27,17 +28,24 @@ class GraveDeathListener(private val plugin: GraveDiggerX) : Listener {
         val playerItems = mutableMapOf<Int, ItemStack>()
 
         for (i in 0..35) {
-            player.inventory.getItem(i)?.let { playerItems[i] = it }
+            player.inventory.getItem(i)?.let { playerItems[i] = it.clone() }
         }
 
-        player.inventory.helmet?.let { playerItems[36] = it }
-        player.inventory.chestplate?.let { playerItems[37] = it }
-        player.inventory.leggings?.let { playerItems[38] = it }
-        player.inventory.boots?.let { playerItems[39] = it }
-        player.inventory.itemInOffHand?.let { playerItems[40] = it }
+        player.inventory.helmet?.let { playerItems[36] = it.clone() }
+        player.inventory.chestplate?.let { playerItems[37] = it.clone() }
+        player.inventory.leggings?.let { playerItems[38] = it.clone() }
+        player.inventory.boots?.let { playerItems[39] = it.clone() }
+        player.inventory.itemInOffHand?.let { playerItems[40] = it.clone() }
+
+        // If inventory (including armor/offhand) has no real items, do NOT create a grave
+        val hasAnyRealItem = playerItems.values.any { it.type != Material.AIR && it.amount > 0 }
+        if (!hasAnyRealItem) {
+            return
+        }
 
         val totalXP = player.totalExperience
 
+        // Only after we confirm grave creation path, consume player XP and prevent drops
         player.totalExperience = 0
         player.exp = 0f
         player.level = 0
@@ -46,6 +54,10 @@ class GraveDeathListener(private val plugin: GraveDiggerX) : Listener {
         event.keepInventory = false
 
         val grave = plugin.graveManager.createGraveAndGetIt(player, playerItems, totalXP)
+        if (grave == null) {
+            // If for some reason grave wasn't created (limits etc.), let vanilla behavior proceed
+            return
+        }
 
         event.droppedExp = 0
 
