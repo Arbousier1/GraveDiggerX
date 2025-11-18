@@ -16,6 +16,11 @@ fun Player.addItemOrDrop(item: ItemStack) {
 fun Player.equipSafely(current: ItemStack?, replacement: ItemStack, apply: (ItemStack) -> Unit) {
     if (replacement.type == Material.AIR) return
 
+    if (current != null && current.type != Material.AIR && current.isSimilar(replacement) && current.amount == replacement.amount) {
+        addItemOrDrop(replacement.clone())
+        return
+    }
+
     current?.takeIf { it.type != Material.AIR }?.let { addItemOrDrop(it) }
-    apply(replacement)
+    apply(replacement.clone())
 }
