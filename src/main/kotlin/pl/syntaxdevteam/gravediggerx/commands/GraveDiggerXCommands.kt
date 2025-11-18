@@ -11,6 +11,7 @@ import pl.syntaxdevteam.gravediggerx.common.ReloadPlugin
 import pl.syntaxdevteam.gravediggerx.graves.Grave
 import pl.syntaxdevteam.gravediggerx.permissions.PermissionChecker
 import pl.syntaxdevteam.gravediggerx.permissions.PermissionChecker.PermissionKey
+import pl.syntaxdevteam.gravediggerx.commands.admin.AdminRemoveCommand
 
 class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
 
@@ -46,13 +47,25 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
         }
 
         if (args.size == 2 && args[0].equals("admin", ignoreCase = true)) {
-            val subcommands = listOf("list")
+            val subcommands = listOf("list", "remove")
             return subcommands.filter { it.startsWith(args[1], ignoreCase = true) }
         }
 
-        if (args.size == 3 && args[0].equals("admin", ignoreCase = true) && args[1].equals("list", ignoreCase = true)) {
-            return Bukkit.getOnlinePlayers().map { it.name }
-                .filter { it.startsWith(args[2], ignoreCase = true) }
+        if (args.size == 3 && args[0].equals("admin", ignoreCase = true)) {
+            return when {
+                args[1].equals("list", ignoreCase = true) -> Bukkit.getOnlinePlayers().map { it.name }
+                    .filter { it.startsWith(args[2], ignoreCase = true) }
+                args[1].equals("remove", ignoreCase = true) -> Bukkit.getOnlinePlayers().map { it.name }
+                    .filter { it.startsWith(args[2], ignoreCase = true) }
+                else -> emptyList()
+            }
+        }
+
+        if (args.size == 4 && args[0].equals("admin", ignoreCase = true) && args[1].equals("remove", ignoreCase = true)) {
+            val player = Bukkit.getOfflinePlayer(args[2])
+            val size = plugin.graveManager.getGravesFor(player.uniqueId).size
+            val indices = (1..size).map { it.toString() }
+            return indices.filter { it.startsWith(args[3], ignoreCase = true) }
         }
 
         return emptyList()
@@ -143,6 +156,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
 
         when (args[1].lowercase()) {
             "list" -> sendAdminList(stack, args)
+            "remove" -> AdminRemoveCommand(plugin).execute(stack, args)
             else -> {
                 val message = plugin.messageHandler.stringMessageToComponent("error", "unknown-command")
                 sender.sendMessage(message)
@@ -179,4 +193,5 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
             sender.sendMessage(line)
         }
     }
+
 }
