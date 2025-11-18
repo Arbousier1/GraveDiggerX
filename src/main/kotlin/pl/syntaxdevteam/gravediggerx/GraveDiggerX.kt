@@ -84,6 +84,5 @@ class GraveDiggerX : JavaPlugin() {
                 databaseHandler.ensureSchema()
             })
         }
-
     }
 }
