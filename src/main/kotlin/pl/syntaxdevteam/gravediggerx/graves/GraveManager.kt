@@ -167,11 +167,11 @@ class GraveManager(private val plugin: GraveDiggerX) {
         val ghostEntityId = plugin.ghostManager.createGhostAndGetId(player.uniqueId, location, player.name)
 
         val armorContents = mapOf(
-            "helmet" to (player.inventory.helmet ?: ItemStack(Material.AIR)),
-            "chestplate" to (player.inventory.chestplate ?: ItemStack(Material.AIR)),
-            "leggings" to (player.inventory.leggings ?: ItemStack(Material.AIR)),
-            "boots" to (player.inventory.boots ?: ItemStack(Material.AIR)),
-            "offhand" to (player.inventory.itemInOffHand ?: ItemStack(Material.AIR))
+            "helmet" to ((player.inventory.helmet ?: ItemStack(Material.AIR)).clone()),
+            "chestplate" to ((player.inventory.chestplate ?: ItemStack(Material.AIR)).clone()),
+            "leggings" to ((player.inventory.leggings ?: ItemStack(Material.AIR)).clone()),
+            "boots" to ((player.inventory.boots ?: ItemStack(Material.AIR)).clone()),
+            "offhand" to ((player.inventory.itemInOffHand ?: ItemStack(Material.AIR)).clone())
         )
 
 
