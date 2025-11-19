@@ -60,3 +60,7 @@ Permissions:
 ## Support and Development
 The plugin was designed for survival, hardcore, and RPG servers. Please report suggestions and bugs on the official Discord server or in the project repository so we can continue improving GraveDiggerX.
 
+| SyntaxDevTeam |
+| --- |
+| ![syntaxdevteam_logo.png](https://raw.githubusercontent.com/SyntaxDevTeam/PunisherX/main/assets/syntaxdevteam_logo.png) |
+
