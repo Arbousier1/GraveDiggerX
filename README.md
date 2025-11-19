@@ -2,7 +2,9 @@
 
 GraveDiggerX is an advanced plugin for Paper servers that automatically creates graves upon a player's death. The plugin secures the player's inventory, experience, and death location, providing clear visual information and easy recovery of lost items.
 
-![gravelook.png](https://raw.githubusercontent.com/SyntaxDevTeam/GraveDiggerX/main/assets/gravelook.png)
+| In game |
+| --- |
+| ![gravelook.png](https://raw.githubusercontent.com/SyntaxDevTeam/GraveDiggerX/main/assets/gravelook.png) |
 
 ## Key Features
 - **Auto Graves** – After the player’s death, their inventory and experience are transferred to a gravestone in the form of the player’s head, accompanied by an informational hologram.
