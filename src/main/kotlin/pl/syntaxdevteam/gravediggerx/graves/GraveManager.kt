@@ -153,7 +153,23 @@ class GraveManager(private val plugin: GraveDiggerX) {
             return null
         }
 
-        val location = player.location.toBlockLocation()
+        var location = player.location.toBlockLocation()
+
+        // Safe placement: optionally relocate grave to a nearby safe spot (avoid lava, other graves, precipice)
+        val safeEnabled = plugin.config.getBoolean("graves.safe-placement.enabled", true)
+        if (safeEnabled) {
+            val radius = plugin.config.getInt("graves.safe-placement.radius", 8)
+            val maxVert = plugin.config.getInt("graves.safe-placement.max-vertical-scan", 3)
+            SafeGravePlacer.findSafeLocationNear(location, radius, maxVert) { target, minDistance ->
+                hasNearbyGrave(target, minDistance)
+            }?.let { safeLoc ->
+                if (safeLoc != location) {
+                    runCatching { plugin.logger.debug("Relocating grave from ${location.blockX},${location.blockY},${location.blockZ} to ${safeLoc.blockX},${safeLoc.blockY},${safeLoc.blockZ}") }
+                    location = safeLoc
+                }
+            }
+        }
+
         val block = location.block
         val originalBlockData = if (block.type != Material.AIR) block.blockData.clone() else Bukkit.createBlockData(Material.AIR)
         block.type = Material.PLAYER_HEAD
@@ -312,6 +328,23 @@ class GraveManager(private val plugin: GraveDiggerX) {
         } catch (ex: Exception) {
             plugin.logger.warning("Failed to resolve player profile for grave owner $ownerName: ${ex.message}")
             null
+        }
+    }
+
+
+    private fun hasNearbyGrave(target: Location, minDistanceBlocks: Int): Boolean {
+        val worldName = target.world?.name ?: return false
+        val tx = target.blockX
+        val ty = target.blockY
+        val tz = target.blockZ
+        val minDistSq = (minDistanceBlocks * minDistanceBlocks).toDouble()
+        return activeGraves.values.any { g ->
+            val loc = g.location
+            if (loc.world?.name != worldName) return@any false
+            val dx = (loc.blockX - tx).toDouble()
+            val dy = (loc.blockY - ty).toDouble()
+            val dz = (loc.blockZ - tz).toDouble()
+            (dx * dx + dy * dy + dz * dz) < minDistSq
         }
     }
 }
