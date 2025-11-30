@@ -35,6 +35,7 @@ class TimeGraveRemove(private val plugin: GraveDiggerX) {
                     return@Runnable
                 }
 
+                plugin.graveManager.updateHologramWithTime(grave, secondsLeft)
                 if (player != null && player.isOnline) {
                     val msg = plugin.messageHandler.stringMessageToComponent(
                         "graves",
