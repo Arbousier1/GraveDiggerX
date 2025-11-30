@@ -92,6 +92,6 @@ class GhostSpirit(
     }
 
     companion object {
-        val GHOST_KEY: NamespacedKey = NamespacedKey.fromString("gravediggerx:ghost")!!
+        val GHOST_KEY: NamespacedKey = NamespacedKey.fromString("grave_ghost")!!
     }
 }

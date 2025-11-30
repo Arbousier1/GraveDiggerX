@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "pl.syntaxdevteam.gravediggerx"
-version = "1.0.3-HOTFIX"
+version = "1.0.4-DEV"
 description = "A powerful and very effective plugin for managing tombstones after players die."
 
 repositories {
@@ -20,12 +20,12 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
-    compileOnly("pl.syntaxdevteam:core:1.2.5")
+    compileOnly("pl.syntaxdevteam:core:1.2.6p-SNAPSHOT")
     compileOnly("pl.syntaxdevteam:messageHandler:1.0.3")
     compileOnly("com.github.ben-manes.caffeine:caffeine:3.2.3")
     compileOnly("com.zaxxer:HikariCP:7.0.2")
-    compileOnly("org.xerial:sqlite-jdbc:3.50.3.0")
-    compileOnly("org.mariadb.jdbc:mariadb-java-client:3.5.5")
+    compileOnly("org.xerial:sqlite-jdbc:3.51.0.0")
+    compileOnly("org.mariadb.jdbc:mariadb-java-client:3.5.6")
 
 }
 
@@ -69,6 +69,6 @@ tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJ
 }
 
 plugindeployer {
-    paper { dir = "/home/debian/poligon/Paper/1.21.10/plugins" }
+    paper { dir = "/home/debian/poligon/Paper/1.21.11/plugins" }
     folia { dir = "/home/debian/poligon/Folia/1.21.8/plugins" }
 }

@@ -92,7 +92,7 @@ class GraveDiggerXCommands(private val plugin: GraveDiggerX) : BasicCommand {
             sender.sendMessage(message)
             return
         }
-
+        // TODO: Add reloading database connection
         plugin.reloadConfig()
         ReloadPlugin(plugin).reloadAll()
         plugin.messageHandler.reloadMessages()

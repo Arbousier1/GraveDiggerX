@@ -40,12 +40,13 @@ class GraveDiggerX : JavaPlugin() {
             GitHubSource("SyntaxDevTeam/GraveDiggerX"),
             ModrinthSource("G6k3MNK0")
         )
-        SyntaxCore.init(this)
+        SyntaxCore.init(this, versionType = "paper")
+        this.logger = SyntaxCore.logger
         saveDefaultConfig()
+        pluginConfig = this.config
         configHandler = ConfigHandler(this)
         configHandler.verifyAndUpdateConfig()
-        pluginConfig = this.config
-        logger = SyntaxCore.logger
+
         timeGraveRemove = TimeGraveRemove(this)
 
         SyntaxMessages.initialize(this)
@@ -68,6 +69,8 @@ class GraveDiggerX : JavaPlugin() {
     }
 
     override fun onDisable() {
+        databaseHandler.close()
+        logger.err(pluginMeta.name + " " + pluginMeta.version + " has been disabled ☹️")
     }
 
     private fun setupDatabase() {
