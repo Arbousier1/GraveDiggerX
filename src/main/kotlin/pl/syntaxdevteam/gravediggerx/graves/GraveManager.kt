@@ -66,8 +66,8 @@ class GraveManager(private val plugin: GraveDiggerX) {
                                 applyPlayerProfile(this, grave.ownerId, grave.ownerName)
                                 update(true, false)
                             }
-
-                            val hologramIds = createHologram(loc, grave.ownerName)
+                            val totalSeconds = plugin.config.getInt("graves.grave-despawn", 60)
+                            val hologramIds = createHologram(loc, grave.ownerName, totalSeconds)
 
                             var ghostId: UUID? = null
                             if (grave.ghostActive) {
@@ -109,11 +109,6 @@ class GraveManager(private val plugin: GraveDiggerX) {
 
     fun saveGravesToStorage() {
         performSaveAsync()
-    }
-
-    fun saveOnDisable() {
-        val snapshot = activeGraves.values.toList()
-        plugin.databaseHandler.writeGravesToJsonIfConfigured(snapshot)
     }
 
     private fun performSaveAsync() {
@@ -159,7 +154,8 @@ class GraveManager(private val plugin: GraveDiggerX) {
             update(true, false)
         }
 
-        val hologramIds = createHologram(location, player.name)
+        val totalSeconds = plugin.config.getInt("graves.grave-despawn", 60)
+        val hologramIds = createHologram(location, player.name, totalSeconds)
         val ghostEntityId = plugin.ghostManager.createGhostAndGetId(player.uniqueId, location, player.name)
 
         val armorContents = mapOf(
@@ -234,8 +230,8 @@ class GraveManager(private val plugin: GraveDiggerX) {
     fun getGravesFor(ownerId: UUID): List<Grave> =
         activeGraves.values.filter { it.ownerId == ownerId }
 
-    private fun createHologram(location: Location, ownerName: String): List<UUID> {
-        val text: Component = plugin.messageHandler.stringMessageToComponentNoPrefix("graveh", "hologram", mapOf("player" to ownerName))
+    private fun createHologram(location: Location, ownerName: String, time: Int): List<UUID> {
+        val text: Component = plugin.messageHandler.stringMessageToComponentNoPrefix("graveh", "hologram", mapOf("player" to ownerName, "time" to time.toString()))
         val hologramLocation = location.clone().add(0.5, 1.5, 0.5)
         val world = hologramLocation.world ?: return emptyList()
 
@@ -260,6 +256,20 @@ class GraveManager(private val plugin: GraveDiggerX) {
         }
 
         return listOf(textDisplay.uniqueId)
+    }
+
+    fun updateHologramWithTime(grave: Grave, time: Int) {
+        grave.hologramIds.forEach { id ->
+            val entity = Bukkit.getEntity(id)
+            if (entity is TextDisplay) {
+                val text: Component = plugin.messageHandler.stringMessageToComponentNoPrefix(
+                    "graveh",
+                    "hologram",
+                    mapOf("player" to grave.ownerName, "time" to time.toString())
+                )
+                entity.text(text)
+            }
+        }
     }
 
     fun getGraveAt(location: Location): Grave? {

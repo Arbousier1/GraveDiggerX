@@ -47,7 +47,7 @@ graves:
 
 
 graveh:
-  hologram: "<#800020>R.I.P. <newline><#AAAAAA>Grave of <white><player></white><newline><yellow>Right-click to open"
+  hologram: "<#800020>R.I.P.<newline><#AAAAAA>Expires in: <white><time>s</white><newline><#AAAAAA>Grave of <white><player></white><newline><yellow>Right-click to open"
 
 admin:
   removed-grave: "<#AAAAAA>Deleted grave<white> <player> <id>"
