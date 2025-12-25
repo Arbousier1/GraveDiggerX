@@ -1,48 +1,42 @@
-name: Build HuskSync Corrected
+name: Build Plugin
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    # HuskSync 文档明确要求 Java 21
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: 'gradle'
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-    # 执行构建，并列出构建后的文件结构（方便在 Actions 日志中排查）
-    - name: Build with Gradle
-      run: |
-        ./gradlew clean build
-        echo "=== Listing jar files found ==="
-        find . -name "*.jar"
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
 
-    # 上传构建产物
-    # 这里我们配置了多个路径，确保无论它生成在哪里都能被打包
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: GraveDiggerX-latest-DEV-Jars
-        path: |
-          target/*.jar
-          */build/libs/*.jar
-          !**/build/libs/*-sources.jar
-          !**/build/libs/*-javadoc.jar
-          !**/build/libs/*-dev.jar
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v5
+        with:
+          name: GraveDiggerX-latest-DEV.jar
+          path: build/libs/*.jar
