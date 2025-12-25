@@ -19,6 +19,7 @@ class SyntaxLoader : PluginLoader {
         resolveLibraries().map { DefaultArtifact(it) }
             .forEach { artifact -> resolver.addDependency(Dependency(artifact, null)) }
 
+        resolver.addRepository(RemoteRepository.Builder("alimaven", "default", "http://maven.aliyun.com/nexus/content/groups/public/").build())
         resolver.addRepository(RemoteRepository.Builder("syntaxdevteam-snapshot", "default", "https://nexus.syntaxdevteam.pl/repository/maven-snapshots/").build())
         resolver.addRepository(RemoteRepository.Builder("syntaxdevteam-release", "default", "https://nexus.syntaxdevteam.pl/repository/maven-releases/").build())
         resolver.addRepository(RemoteRepository.Builder("paper", "default", "https://repo.papermc.io/repository/maven-public/").build())
